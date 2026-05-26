@@ -1,11 +1,732 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Привет, мир!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Код. Деньги. OpenClaw — 10 шагов к новой профессии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+ --bg: #f4efe6;
+ --ink: #0a0a0a;
+ --paper: #ffffff;
+ --accent: #2b3aff;
+ --accent-2: #ff5a1f;
+ --muted: #6b6357;
+ --line: #1a1a1a;
+ --serif: 'Fraunces', 'Times New Roman', serif;
+ --sans: 'Manrope', system-ui, sans-serif;
+ --mono: 'JetBrains Mono', monospace;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ background: var(--bg);
+ color: var(--ink);
+ font-family: var(--sans);
+ overflow-x: hidden;
+ position: relative;
+ }
+
+ body::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ z-index: 1000;
+ opacity: 0.35;
+ mix-blend-mode: multiply;
+ background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+ }
+
+ ::selection { background: var(--accent); color: #fff; }
+
+ .topbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: var(--bg);
+ border-bottom: 1px solid var(--line);
+ padding: 14px 32px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-family: var(--mono);
+ font-size: 11px;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ }
+ .topbar .lhs { display: flex; gap: 24px; align-items: center; }
+ .topbar .blink {
+ width: 8px; height: 8px;
+ border-radius: 50%;
+ background: var(--accent-2);
+ animation: blink 1.6s infinite;
+ }
+ @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+ .topbar .rhs { display: flex; gap: 28px; }
+ .topbar .rhs a { color: var(--ink); text-decoration: none; }
+ .topbar .rhs a:hover { color: var(--accent); }
+
+ .hero {
+ padding: 60px 32px 80px;
+ max-width: 1400px;
+ margin: 0 auto;
+ position: relative;
+ }
+
+ .hero-meta {
+ display: flex;
+ justify-content: space-between;
+ font-family: var(--mono);
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.12em;
+ color: var(--muted);
+ border-bottom: 1px solid var(--line);
+ padding-bottom: 16px;
+ margin-bottom: 60px;
+ }
+
+ .hero-title {
+ font-family: var(--serif);
+ font-weight: 300;
+ font-size: clamp(60px, 12vw, 200px);
+ line-height: 0.86;
+ letter-spacing: -0.04em;
+ margin-bottom: 40px;
+ }
+
+ .hero-title .word {
+ display: inline-block;
+ opacity: 0;
+ transform: translateY(40px);
+ animation: rise 0.9s cubic-bezier(.2,.7,.2,1) forwards;
+ }
+ .hero-title .word:nth-child(1) { animation-delay: 0.05s; }
+ .hero-title .word:nth-child(2) { animation-delay: 0.18s; }
+ .hero-title .word:nth-child(3) { animation-delay: 0.31s; }
+ .hero-title .word:nth-child(4) { animation-delay: 0.44s; }
+
+ @keyframes rise {
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+ .hero-title em {
+ font-style: italic;
+ font-weight: 400;
+ color: var(--accent);
+ }
+
+ .hero-title .strike {
+ position: relative;
+ color: var(--muted);
+ }
+ .hero-title .strike::after {
+ content: '';
+ position: absolute;
+ left: -2%; right: -2%;
+ top: 52%;
+ height: 6px;
+ background: var(--accent-2);
+ transform: rotate(-2deg);
+ }
+
+ .hero-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr;
+ gap: 40px;
+ margin-top: 60px;
+ border-top: 1px solid var(--line);
+ padding-top: 30px;
+ }
+
+ .hero-lead {
+ grid-column: span 2;
+ font-family: var(--serif);
+ font-size: 28px;
+ line-height: 1.3;
+ font-weight: 400;
+ }
+ .hero-lead .drop {
+ float: left;
+ font-size: 88px;
+ line-height: 0.85;
+ font-weight: 900;
+ padding: 8px 12px 0 0;
+ color: var(--accent);
+ }
+
+ .hero-stats {
+ display: flex;
+ flex-direction: column;
+ gap: 24px;
+ }
+ .stat {
+ border-left: 2px solid var(--ink);
+ padding-left: 16px;
+ }
+ .stat-num {
+ font-family: var(--serif);
+ font-size: 56px;
+ font-weight: 600;
+ line-height: 1;
+ letter-spacing: -0.03em;
+ }
+ .stat-num.accent { color: var(--accent); }
+ .stat-label {
+ font-family: var(--mono);
+ font-size: 10px;
+ text-transform: uppercase;
+ letter-spacing: 0.15em;
+ margin-top: 8px;
+ color: var(--muted);
+ }
+
+ .stamp {
+ position: absolute;
+ top: 100px;
+ right: 50px;
+ width: 160px;
+ height: 160px;
+ border: 2px solid var(--accent-2);
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: var(--mono);
+ font-size: 10px;
+ text-transform: uppercase;
+ color: var(--accent-2);
+ transform: rotate(-12deg);
+ text-align: center;
+ line-height: 1.4;
+ padding: 20px;
+ letter-spacing: 0.1em;
+ }
+
+ .marquee {
+ background: var(--ink);
+ color: var(--bg);
+ padding: 20px 0;
+ overflow: hidden;
+ white-space: nowrap;
+ border-top: 1px solid var(--line);
+ border-bottom: 1px solid var(--line);
+ }
+ .marquee-track {
+ display: inline-flex;
+ gap: 60px;
+ animation: scroll 30s linear infinite;
+ font-family: var(--serif);
+ font-style: italic;
+ font-size: 38px;
+ font-weight: 300;
+ }
+ .marquee-track span:nth-child(even) { color: var(--accent-2); }
+ .marquee-track .dot {
+ color: var(--bg);
+ font-size: 38px;
+ }
+ @keyframes scroll {
+ from { transform: translateX(0); }
+ to { transform: translateX(-50%); }
+ }
+
+ .steps {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 120px 32px;
+ }
+
+ .section-head {
+ display: grid;
+ grid-template-columns: 1fr 2fr;
+ gap: 40px;
+ border-bottom: 1px solid var(--line);
+ padding-bottom: 30px;
+ margin-bottom: 80px;
+ }
+
+ .section-head .label {
+ font-family: var(--mono);
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.15em;
+ color: var(--muted);
+ }
+
+ .section-head h2 {
+ font-family: var(--serif);
+ font-size: clamp(40px, 5vw, 76px);
+ font-weight: 400;
+ line-height: 0.95;
+ letter-spacing: -0.025em;
+ }
+ .section-head h2 em {
+ font-style: italic;
+ color: var(--accent);
+ }
+
+ .step {
+ display: grid;
+ grid-template-columns: 120px 1fr 1.4fr;
+ gap: 60px;
+ padding: 50px 0;
+ border-bottom: 1px solid rgba(10,10,10,0.15);
+ align-items: start;
+ position: relative;
+ transition: all 0.4s cubic-bezier(.2,.7,.2,1);
+ }
+
+ .step:hover {
+ padding-left: 24px;
+ padding-right: 24px;
+ background: rgba(43, 58, 255, 0.03);
+ }
+
+ .step:hover .step-num {
+ color: var(--accent);
+ transform: scale(1.08) rotate(-2deg);
+ }
+
+ .step-num {
+ font-family: var(--serif);
+ font-size: 96px;
+ font-weight: 300;
+ line-height: 1;
+ letter-spacing: -0.04em;
+ transition: all 0.4s cubic-bezier(.2,.7,.2,1);
+ transform-origin: left center;
+ }
+
+ .step-num .pct {
+ font-size: 24px;
+ vertical-align: super;
+ color: var(--muted);
+ }
+
+ .step-title-block .tag {
+ display: inline-block;
+ font-family: var(--mono);
+ font-size: 10px;
+ text-transform: uppercase;
+ letter-spacing: 0.15em;
+ background: var(--ink);
+ color: var(--bg);
+ padding: 5px 10px;
+ margin-bottom: 14px;
+ }
+
+ .step-title {
+ font-family: var(--serif);
+ font-size: 36px;
+ font-weight: 400;
+ line-height: 1.05;
+ letter-spacing: -0.02em;
+ }
+ .step-title em {
+ font-style: italic;
+ color: var(--accent);
+ }
+
+ .step-body {
+ font-size: 17px;
+ line-height: 1.6;
+ color: #222;
+ }
+
+ .step-meta {
+ margin-top: 18px;
+ display: flex;
+ gap: 18px;
+ flex-wrap: wrap;
+ font-family: var(--mono);
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.1em;
+ color: var(--muted);
+ }
+ .step-meta span::before { content: '◦ '; color: var(--accent); }
+
+ .pullquote {
+ max-width: 1400px;
+ margin: 60px auto;
+ padding: 100px 32px;
+ text-align: center;
+ background: var(--ink);
+ color: var(--bg);
+ position: relative;
+ overflow: hidden;
+ }
+ .pullquote::before {
+ content: '«';
+ position: absolute;
+ top: -40px;
+ left: 50%;
+ transform: translateX(-50%);
+ font-family: var(--serif);
+ font-size: 300px;
+ color: var(--accent);
+ opacity: 0.3;
+ line-height: 1;
+ }
+ .pullquote q {
+ font-family: var(--serif);
+ font-style: italic;
+ font-size: clamp(28px, 4vw, 56px);
+ font-weight: 300;
+ line-height: 1.2;
+ quotes: none;
+ position: relative;
+ z-index: 2;
+ display: block;
+ max-width: 1000px;
+ margin: 0 auto;
+ }
+ .pullquote q em {
+ color: var(--accent-2);
+ font-style: italic;
+ }
+ .pullquote .attr {
+ margin-top: 32px;
+ font-family: var(--mono);
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.2em;
+ color: var(--muted);
+ }
+
+ .cta {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 120px 32px;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 80px;
+ align-items: end;
+ border-top: 2px solid var(--ink);
+ }
+ .cta-title {
+ font-family: var(--serif);
+ font-size: clamp(48px, 7vw, 120px);
+ font-weight: 300;
+ line-height: 0.9;
+ letter-spacing: -0.03em;
+ }
+ .cta-title em {
+ font-style: italic;
+ color: var(--accent);
+ }
+ .cta-right {
+ text-align: right;
+ }
+ .cta-right p {
+ font-family: var(--serif);
+ font-size: 22px;
+ line-height: 1.4;
+ margin-bottom: 30px;
+ }
+ .btn {
+ display: inline-block;
+ background: var(--ink);
+ color: var(--bg);
+ padding: 22px 36px;
+ font-family: var(--mono);
+ font-size: 12px;
+ text-transform: uppercase;
+ letter-spacing: 0.2em;
+ text-decoration: none;
+ border: 2px solid var(--ink);
+ transition: all 0.3s;
+ position: relative;
+ overflow: hidden;
+ }
+ .btn:hover {
+ background: var(--accent);
+ border-color: var(--accent);
+ transform: translate(-3px, -3px);
+ box-shadow: 6px 6px 0 var(--ink);
+ }
+
+ footer {
+ background: var(--ink);
+ color: var(--bg);
+ padding: 60px 32px 30px;
+ font-family: var(--mono);
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.12em;
+ }
+ footer .row {
+ max-width: 1400px;
+ margin: 0 auto;
+ display: flex;
+ justify-content: space-between;
+ align-items: flex-end;
+ gap: 40px;
+ flex-wrap: wrap;
+ }
+ footer .big {
+ font-family: var(--serif);
+ font-size: clamp(60px, 10vw, 140px);
+ line-height: 0.9;
+ font-style: italic;
+ font-weight: 300;
+ color: var(--bg);
+ text-transform: none;
+ letter-spacing: -0.03em;
+ }
+ footer .big em { color: var(--accent); font-style: italic; }
+ footer .meta { color: var(--muted); }
+
+ @media (max-width: 900px) {
+ .topbar { padding: 12px 16px; font-size: 10px; }
+ .topbar .rhs { display: none; }
+ .hero { padding: 32px 16px 50px; }
+ .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+ .hero-lead { grid-column: span 1; font-size: 22px; }
+ .hero-lead .drop { font-size: 64px; }
+ .stamp { display: none; }
+ .steps { padding: 60px 16px; }
+ .section-head { grid-template-columns: 1fr; gap: 16px; }
+ .step { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+ .step-num { font-size: 72px; }
+ .step-title { font-size: 28px; }
+ .step:hover { padding-left: 0; padding-right: 0; }
+ .pullquote { padding: 60px 24px; }
+ .cta { grid-template-columns: 1fr; gap: 40px; padding: 60px 16px; }
+ .cta-right { text-align: left; }
+ .marquee-track { font-size: 24px; gap: 30px; }
+ }
+</style>
 </head>
 <body>
-  <h1>Привет, мир!</h1>
+
+<div class="topbar">
+ <div class="lhs">
+ <span class="blink"></span>
+ <span>Vol. 01 / Выпуск 2026</span>
+ <span>·</span>
+ <span>Москва — Любая точка мира</span>
+ </div>
+ <div class="rhs">
+ <a href="#manifesto">Манифест</a>
+ <a href="#steps">10 шагов</a>
+ <a href="#start">Начать</a>
+ </div>
+</div>
+
+<section class="hero">
+ <div class="hero-meta">
+ <span>Издание о новой работе и старых деньгах</span>
+ <span>№ 001 — Главный материал</span>
+ </div>
+
+ <h1 class="hero-title">
+ <span class="word">Как</span>
+ <span class="word"><em>разбогатеть</em></span>
+ <span class="word">не зная</span>
+ <span class="word"><span class="strike">программирования</span>.</span>
+ </h1>
+
+ <div class="stamp">
+ Реально работает<br>· 2026 ·<br>OpenClaw inside
+ </div>
+
+ <div class="hero-grid">
+ <p class="hero-lead">
+ <span class="drop">К</span>огда-то деньги делали те, кто умел писать код. Сегодня — те, кто умеет правильно <em style="color:var(--accent);font-style:italic;">разговаривать с агентами</em>. Это руководство — про то, как за десять шагов выстроить собственную ИИ-фабрику и начать получать от неё то, ради чего раньше нанимали целые команды.
+ </p>
+ <div class="hero-stats">
+ <div class="stat">
+ <div class="stat-num accent">10</div>
+ <div class="stat-label">шагов от нуля</div>
+ </div>
+ <div class="stat">
+ <div class="stat-num">€20</div>
+ <div class="stat-label">в месяц — сервер</div>
+ </div>
+ <div class="stat">
+ <div class="stat-num">24/7</div>
+ <div class="stat-label">агент в кармане</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<div class="marquee">
+ <div class="marquee-track">
+ <span>Вайб-кодинг</span><span class="dot">✦</span>
+ <span>OpenClaw</span><span class="dot">✦</span>
+ <span>Claude Code</span><span class="dot">✦</span>
+ <span>VPS на €20</span><span class="dot">✦</span>
+ <span>Telegram-бот</span><span class="dot">✦</span>
+ <span>Свой ИИ-агент</span><span class="dot">✦</span>
+ <span>Вайб-кодинг</span><span class="dot">✦</span>
+ <span>OpenClaw</span><span class="dot">✦</span>
+ <span>Claude Code</span><span class="dot">✦</span>
+ <span>VPS на €20</span><span class="dot">✦</span>
+ <span>Telegram-бот</span><span class="dot">✦</span>
+ <span>Свой ИИ-агент</span><span class="dot">✦</span>
+ </div>
+</div>
+
+<section class="steps" id="steps">
+ <div class="section-head">
+ <div class="label">Глава I<br>Маршрут</div>
+ <h2>Десять шагов от <em>обычного человека</em> до владельца собственного ИИ-производства.</h2>
+ </div>
+
+ <div class="step">
+ <div class="step-num">01</div>
+ <div class="step-title-block">
+ <div class="tag">Фундамент</div>
+ <h3 class="step-title">Смените оптику: вы больше <em>не сотрудник</em>, вы архитектор.</h3>
+ </div>
+ <div class="step-body">
+ Самое дорогое умение в 2026 году — не писать код, а ясно формулировать задачу. Пока другие пытаются конкурировать с алгоритмом, вы перестаёте быть исполнителем и становитесь тем, кто ставит задачи машине. Это и есть вайб-кодинг.
+ <div class="step-meta"><span>30 минут</span><span>Никаких вложений</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">02</div>
+ <div class="step-title-block">
+ <div class="tag">Инструмент</div>
+ <h3 class="step-title">Установите <em>Claude Code</em> и научитесь говорить с агентом.</h3>
+ </div>
+ <div class="step-body">
+ VS Code + расширение Claude Code превращают обычный ноутбук в командный пункт. Агент читает ваши файлы, пишет за вас код, исправляет ошибки и выполняет команды. Авторизация — через клик в браузере.
+ <div class="step-meta"><span>15 минут</span><span>Бесплатно с Claude Max</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">03</div>
+ <div class="step-title-block">
+ <div class="tag">Сверхспособности</div>
+ <h3 class="step-title">Включите «<em>Режим бога</em>» и четыре must-have скилла.</h3>
+ </div>
+ <div class="step-body">
+ Superpowers, TaskMaster, Browser, Memory Bank — четыре расширения, которые превращают чат-бота в полноценного цифрового сотрудника. Он сам планирует, помнит, тестирует и работает без вашего постоянного «ОК».
+ <div class="step-meta"><span>20 минут</span><span>Один промпт — всё ставится автоматически</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">04</div>
+ <div class="step-title-block">
+ <div class="tag">Инфраструктура</div>
+ <h3 class="step-title">Арендуйте <em>свой сервер</em>. €20 в месяц — стоимость одного ужина.</h3>
+ </div>
+ <div class="step-body">
+ Чистый VPS на Ubuntu 24.04, 4 ядра, 8 ГБ оперативной памяти. Именно здесь будет жить ваша личная ИИ-фабрика. Доступ — 24/7, из любой точки мира, и никто не отключит вас «за нарушение правил».
+ <div class="step-meta"><span>10 минут</span><span>~€20 / месяц</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">05</div>
+ <div class="step-title-block">
+ <div class="tag">Ядро</div>
+ <h3 class="step-title">Поставьте <em>OpenClaw</em> одной командой — агент сделает это сам.</h3>
+ </div>
+ <div class="step-body">
+ Вы отправляете промпт — Claude Code подключается к серверу, ставит Docker, скачивает OpenClaw, разруливает зависимости. Вам остаётся только пройти короткий онбординг и выбрать «QuickStart».
+ <div class="step-meta"><span>25 минут</span><span>100% автоматизация</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">06</div>
+ <div class="step-title-block">
+ <div class="tag">Мозги</div>
+ <h3 class="step-title">Подключите <em>две нейросети</em>: основную и резервную.</h3>
+ </div>
+ <div class="step-body">
+ ChatGPT Codex (через подписку Plus/Pro) как главный мозг + OpenRouter как fallback на 600+ моделей. Если основная закончилась — резервная подхватывает работу за миллисекунды. Никаких простоев.
+ <div class="step-meta"><span>15 минут</span><span>$20–200 / месяц</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">07</div>
+ <div class="step-title-block">
+ <div class="tag">Канал</div>
+ <h3 class="step-title">Создайте <em>Telegram-бота</em> — ваш ИИ всегда в кармане.</h3>
+ </div>
+ <div class="step-body">
+ Один разговор с @BotFather — и у вас собственный бот. Никаких приложений, никаких VPN-плясок: ваш агент отвечает прямо в Telegram, на любом устройстве, в любой точке планеты.
+ <div class="step-meta"><span>10 минут</span><span>Бесплатно</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">08</div>
+ <div class="step-title-block">
+ <div class="tag">Голос</div>
+ <h3 class="step-title">Включите <em>голосовой ввод и ответ</em>. Печатать больше не нужно.</h3>
+ </div>
+ <div class="step-body">
+ Whisper от OpenAI распознаёт вашу речь, Edge TTS отвечает приятным голосом на русском. Идёте по улице — диктуете идею. Через 3 секунды — голосовое от агента с готовым решением.
+ <div class="step-meta"><span>15 минут</span><span>~$10 пополнение OpenAI</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">09</div>
+ <div class="step-title-block">
+ <div class="tag">Порядок</div>
+ <h3 class="step-title">Организуйте работу через <em>группы и топики</em>.</h3>
+ </div>
+ <div class="step-body">
+ Один большой чат — это хаос. Группа с топиками — это студия. Отдельная тема под идеи, под код, под ежедневную рутину. Контексты не пересекаются, агент не путается, мысли остаются чистыми.
+ <div class="step-meta"><span>20 минут</span><span>Изолированные сессии</span></div>
+ </div>
+ </div>
+
+ <div class="step">
+ <div class="step-num">10</div>
+ <div class="step-title-block">
+ <div class="tag">Душа</div>
+ <h3 class="step-title">Задайте агенту <em>личность</em> — и он перестанет быть «нейросетью».</h3>
+ </div>
+ <div class="step-body">
+ Файлы soul.md и user.md — это паспорт и характер вашего агента. Вы пишете, кто вы, чем занимаетесь и каким голосом хотите слышать ответ. После этого с вами говорит уже не модель, а партнёр, который знает контекст и помнит детали.
+ <div class="step-meta"><span>30 минут</span><span>Лимит: 20 000 символов</span></div>
+ </div>
+ </div>
+</section>
+
+<section class="pullquote" id="manifesto">
+ <q>Богатство в эпоху ИИ — это не количество денег. Это <em>количество задач</em>, которое вы можете делегировать машине и забыть.</q>
+ <div class="attr">— Главный тезис издания —</div>
+</section>
+
+<section class="cta" id="start">
+ <h2 class="cta-title">Начните <em>сегодня</em>.<br>Завтра уже поздно.</h2>
+ <div class="cta-right">
+ <p>Десять шагов. Один вечер на установку. И собственный ИИ-агент, который работает на вас круглосуточно — без выходных, отпусков и больничных.</p>
+ <a class="btn" href="#steps">К первому шагу →</a>
+ </div>
+</section>
+
+<footer>
+ <div class="row">
+ <div class="big">Код. Деньги. <em>OpenClaw</em>.</div>
+ <div class="meta">
+ © 2026 / Издание о новой работе<br>
+ Все шаги воспроизводимы / Все цифры реальны
+ </div>
+ </div>
+</footer>
+
 </body>
 </html>
+
